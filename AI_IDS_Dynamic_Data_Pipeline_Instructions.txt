@@ -1,0 +1,82 @@
+AI-BASED INTRUSION DETECTION SYSTEM (IDS)
+Dynamic Data Pipeline Instructions
+-------------------------------------------------------------
+
+1. Project Overview
+This guide explains how to dynamically add new traffic or attack datasets to the IDS project without editing scripts.
+
+-------------------------------------------------------------
+2. Folder Structure
+
+AI_Based_IDS_Project/
+│
+├── data/
+│   ├── raw_csv/              # Add raw CSVs here (normal.csv, dos.csv, scan.csv, sqlmap.csv)
+│   ├── cleaned_csv/          # Cleaned *_clean.csv files saved here
+│   ├── aggregated_csv/       # Contains aggregated_dataset.csv
+│   └── raw_pcap/             # Optional storage for original PCAPs
+│
+├── models/
+│   └── rf_ids_model.joblib   # Trained model
+│
+├── scripts/
+│   ├── validate_and_clean_csvs.py
+│   ├── aggregate_flows.py
+│   ├── train_rf_on_aggregated.py
+│   └── detect_live_traffic.py (optional)
+│
+└── backend/
+    └── app.py
+
+-------------------------------------------------------------
+3. Workflow Overview
+
+PCAP → CSV → CLEANED CSV → AGGREGATED DATASET → ML MODEL
+
+Steps to run after adding a new dataset:
+
+Step 1 — Extract CSV from PCAP
+tshark -r data/raw_pcap/attack.pcap -T fields ^
+  -e frame.time_epoch -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport ^
+  -e udp.srcport -e udp.dstport -e ip.proto -e frame.len -e tcp.flags ^
+  -E header=y -E separator=, > data/raw_csv/attack.csv
+
+Step 2 — Clean CSVs
+python scripts/validate_and_clean_csvs.py --in-dir data/raw_csv --out-dir data/cleaned_csv
+
+Step 3 — Aggregate Datasets
+python scripts/aggregate_flows.py --in-dir data/cleaned_csv --out data/aggregated_csv/aggregated_dataset.csv
+
+Step 4 — Train Model
+python scripts/train_rf_on_aggregated.py --data data/aggregated_csv/aggregated_dataset.csv --out-dir models
+
+-------------------------------------------------------------
+4. Script Notes
+
+validate_and_clean_csvs.py
+• Dynamically cleans all CSV files in data/raw_csv.
+
+aggregate_flows.py
+• Dynamically infers labels from filenames (e.g., dos.csv → DoS, sqlmap.csv → SQLi).
+• Aggregates all datasets into one labeled CSV.
+
+train_rf_on_aggregated.py
+• Trains on all labels automatically.
+• Saves the trained Random Forest model (rf_ids_model.joblib).
+
+-------------------------------------------------------------
+5. Current Categories
+Currently supports:
+1. Normal
+2. DoS
+3. Scan
+4. SQLi
+
+Future categories (e.g., XSS, BruteForce) can be added easily.
+
+-------------------------------------------------------------
+6. Integration Notes
+After retraining, integrate with Flask (backend/app.py) for live predictions through the web dashboard.
+
+-------------------------------------------------------------
+End of Document

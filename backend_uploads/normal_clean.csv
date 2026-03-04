@@ -1,0 +1,1 @@
+frame.time_epoch,ip.src,ip.dst,tcp.srcport,tcp.dstport,udp.srcport,udp.dstport,ip.proto,frame.len,tcp.flags,http.request.method,http.request.uri,http.host,data.text,src_port,dst_port,tcp.flags.int,tcp.flags.int

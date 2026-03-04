@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Network Traffic Data - Advanced Intrusion Detection System</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/HLfD5wgf/dualite-favicon.png" />
+
+  <!-- Fonts and CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="header" id="header">
+    <nav class="navbar">
+      <div class="nav-container">
+        <h1 class="logo">Advanced Intrusion Detection System</h1>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html#home" class="nav-link">Home</a></li>
+          <li><a href="upload.html" class="nav-link active">Upload</a></li>
+          <li><a href="live.html" class="nav-link">Live Monitoring</a></li>
+          <li class="nav-dropdown">
+            <a href="index.html#features" class="nav-link dropdown-toggle">Features <span class="dropdown-arrow">▼</span></a>
+            <ul class="dropdown-menu">
+              <li><a href="index.html#features" class="dropdown-link">Features</a></li>
+              <li><a href="index.html#how-it-works" class="dropdown-link">How It Works</a></li>
+              <li><a href="index.html#tech-stack" class="dropdown-link">Tech Stack</a></li>
+            </ul>
+          </li>
+          <li><a href="index.html#use-cases" class="nav-link">Use Cases</a></li>
+          <li class="nav-dropdown">
+            <a href="index.html#about" class="nav-link dropdown-toggle">About <span class="dropdown-arrow">▼</span></a>
+            <ul class="dropdown-menu">
+              <li><a href="index.html#faq" class="dropdown-link">FAQ</a></li>
+              <li><a href="index.html#team" class="dropdown-link">Team</a></li>
+              <li><a href="index.html#about" class="dropdown-link">About</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Upload Section -->
+  <main>
+    <section class="upload-section">
+      <div class="container">
+        <div class="section-content fade-in">
+          <h2 class="section-title">Upload PCAP / CSV for Analysis</h2>
+          <p class="section-description">
+            Upload a PCAP or CSV file to run the trained Random Forest IDS model on your network traffic data.
+          </p>
+
+          <!-- ✅ Fixed form (multipart + POST) -->
+          <form class="upload-form" id="uploadForm" method="POST" enctype="multipart/form-data">
+            <input id="fileInput" name="file" type="file" accept=".pcap,.pcapng,.csv" />
+            <label for="fileInput" class="file-label">Choose File</label>
+            <span class="selected-file" id="fileName">No file chosen</span>
+            <button type="submit" class="btn btn-primary">Upload & Analyze</button>
+          </form>
+
+          <div id="uploadStatus" style="margin-top:10px;color:var(--text-secondary);"></div>
+        </div>
+
+        <!-- Chart Section -->
+        <section id="chartSection" style="display:none;margin-bottom:2.3rem;">
+          <h3 class="feature-title">Prediction Distribution (Percent)</h3>
+          <canvas id="predChart" width="600" height="240"></canvas>
+        </section>
+
+        <!-- Table Section -->
+        <section id="sampleSection" style="display:none;">
+          <h3 class="feature-title">Sample Predicted Flows</h3>
+          <div style="overflow:auto;max-height:360px;background:var(--bg-card);border-radius:11px;border:1px solid var(--border-color);">
+            <table id="sampleTable" style="width:100%;border-collapse:collapse;">
+              <thead>
+                <tr style="background:rgba(0,230,168,0.06);">
+                  <th>src_ip</th>
+                  <th>dst_ip</th>
+                  <th>protocol</th>
+                  <th>packet_count</th>
+                  <th>total_bytes</th>
+                  <th>prediction</th>
+                  <th>probability</th>
+                </tr>
+              </thead>
+              <tbody id="sampleBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer enhanced-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <h3 class="footer-title">Advanced Intrusion Detection System</h3>
+        <p class="footer-tagline">Smarter, adaptive, AI-driven security for modern networks</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="index.html#home" class="footer-link">Home</a>
+        <a href="index.html#features" class="footer-link">Features</a>
+        <a href="index.html#how-it-works" class="footer-link">How It Works</a>
+        <a href="index.html#tech-stack" class="footer-link">Tech Stack</a>
+        <a href="index.html#use-cases" class="footer-link">Use Cases</a>
+        <a href="index.html#faq" class="footer-link">FAQ</a>
+        <a href="index.html#team" class="footer-link">Team</a>
+        <a href="index.html#about" class="footer-link">About</a>
+        <a href="upload.html" class="footer-link">Upload</a>
+        <a href="live.html" class="footer-link">Live Monitoring</a>
+      </nav>
+      <div class="footer-social">
+        <a href="#" class="social-icon" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5Zm4.25 2A5.5 5.5 0 1 1 6.5 11a5.5 5.5 0 0 1 5.5-5.5Zm0 1.5A4 4 0 1 0 16 11a4 4 0 0 0-4-4Zm5.13.87a1.12 1.12 0 1 1-1.12 1.13 1.12 1.12 0 0 1 1.12-1.13Z" />
+          </svg>
+        </a>
+        <a href="#" class="social-icon" aria-label="Twitter">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+        </a>
+        <a href="#" class="social-icon" aria-label="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <span>&copy; 2025 Advanced IDS Project. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/upload.js"></script>
+
+  <!-- Small inline JS: show file name dynamically -->
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const fileName = document.getElementById("fileName");
+    fileInput.addEventListener("change", () => {
+      fileName.textContent = fileInput.files.length ? fileInput.files[0].name : "No file chosen";
+    });
+  </script>
+</body>
+</html>

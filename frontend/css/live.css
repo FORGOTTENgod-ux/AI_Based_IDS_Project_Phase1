@@ -1,0 +1,104 @@
+/* frontend/css/live.css */
+:root {
+    --bg-dark: #070e14;
+    --bg-card: #0d1420;
+    --border-color: rgba(255,255,255,0.05);
+    --text-primary: #e0f3ff;
+    --text-secondary: #8faec6;
+    --accent-cyan: #00e6a8;
+  }
+  
+  body {
+    background: linear-gradient(180deg, #041018, #091822);
+    font-family: "Poppins", sans-serif;
+    color: var(--text-secondary);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .live-monitor-section {
+    padding: 2rem;
+  }
+  
+  .live-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .live-controls input {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    background: var(--bg-card);
+    color: var(--text-primary);
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: var(--accent-cyan);
+    color: #000;
+    font-weight: 600;
+  }
+  
+  .feed-container {
+    height: 540px;
+    overflow-y: auto;
+    background: linear-gradient(180deg, rgba(10,16,20,0.6), rgba(6,11,16,0.22));
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  thead th {
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+    padding: 10px;
+  }
+  
+  tbody td {
+    padding: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  
+  .live-graph-section {
+    background: #0c151e;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,230,168,0.05);
+  }
+  
+  .live-graph-section h2 {
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+  }
+  /* Suspicious packet highlighting */
+tr.suspect {
+  background: linear-gradient(90deg, rgba(255, 80, 80, 0.1), rgba(255, 0, 0, 0.05));
+  color: #ffb8b8;
+  font-weight: 600;
+}
+
+tr.udp-packet {
+  background: rgba(0, 200, 255, 0.08);
+  color: #9befff;
+}
+
+tr.icmp-packet {
+  background: rgba(255, 255, 0, 0.08);
+  color: #ffe986;
+}
